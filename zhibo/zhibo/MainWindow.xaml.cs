@@ -26,7 +26,17 @@ namespace zhibo
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Closing += MainWindow_Closing;
         }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            EndButton_Click(sender, null);
+
+            System.Threading.Thread.Sleep(100);
+        }
+
         /// <summary>
         /// 开始按钮事件：按下则灰色，执行录制函数。若列表是空则跳出
         /// </summary>
@@ -41,13 +51,17 @@ namespace zhibo
                 return;
             }
             bool err;
-            ffs.Start(recodequipmentText,@"D:\wss.m3u8",out err);
+            ffs.Start(recodequipmentText, @"D:\" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".flv", out err);
             if (err)
             {
                 EndButton.IsEnabled = true;
                 StartButton.IsEnabled = false;
             }
-            
+
+
+            this.Visibility = Visibility.Hidden;
+
+            taskIcon.Visibility = Visibility.Visible;
 
         }
         /// <summary>
@@ -88,5 +102,24 @@ namespace zhibo
                 }
             }
         }
+
+        /// <summary>
+        /// 点击图标
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void taskIcon_TrayLeftMouseUp(object sender, RoutedEventArgs e)
+        {
+            if (this.Visibility == Visibility.Hidden)
+            {
+                taskIcon.Visibility = Visibility.Collapsed;
+                this.Show();
+            }
+            this.Activate();
+            this.Focus();
+
+
+        }
+
     }
 }

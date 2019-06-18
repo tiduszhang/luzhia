@@ -38,14 +38,14 @@ namespace zhibo
         {
             string ffmpegpath;
             string zbbinPath = AppDomain.CurrentDomain.BaseDirectory;
-            string[] temp = zbbinPath.Split("\\".ToCharArray());
-            string upf = "";
-            for (int i = 0; i < temp.Length - 3; i++)
-            {
-                upf += temp[i];
-                upf += "\\";
-            }
-            ffmpegpath = upf + @"ffmpeg-20161012-7cf0ed3-win64-static\ffmpeg-20161012-7cf0ed3-win64-static\bin\ffmpeg.exe";
+            //string[] temp = zbbinPath.Split("\\".ToCharArray());
+            //string upf = "";
+            //for (int i = 0; i < temp.Length - 3; i++)
+            //{
+            //    upf += temp[i];
+            //    upf += "\\";
+            //}
+            ffmpegpath = zbbinPath + @"\ffmpeg.exe";
             return ffmpegpath;
         }
         int a;
@@ -63,7 +63,7 @@ namespace zhibo
             ProcessStartInfo startInfo = new ProcessStartInfo(ffmpegpath);
             startInfo.WindowStyle = ProcessWindowStyle.Normal;
             startInfo.Arguments = "-f dshow -i audio=\"" + audio 
-                                + "\"" + " -draw_mouse 1 -offset_x 0 -offset_y 0 -f GDIgrab -i desktop -vcodec libx264 -hls_time 4 -hls_list_size 0 " 
+                                + "\"" + " -draw_mouse 1 -offset_x 0 -offset_y 0 -f GDIgrab -i desktop -vcodec flv "
                                 + outFilePath;//相当于在CMD输入的东西，ffmpeg参数
             p.StartInfo = startInfo;
             //隐藏cmd
